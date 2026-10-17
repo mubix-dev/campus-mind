@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-1 -5 320 260" width="320" height="260"><polygon points="150,80 290,130 150,180 10,130" fill="#FFFFFF"/>
+<path d="M70 190 L70 220 C70 247 230 247 230 220 L230 190" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linecap="round"/>
+<path d="M290 130 L290 180" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round"/><circle cx="290" cy="188" r="12" fill="#FFFFFF"/>
+<path d="M236 4 C243.2 36.8 243.2 36.8 276 44 C243.2 51.2 243.2 51.2 236 84 C228.8 51.2 228.8 51.2 196 44 C228.8 36.8 228.8 36.8 236 4 Z" fill="#A8E6A3"/><path d="M290 2 C293.24 16.76 293.24 16.76 308 20 C293.24 23.24 293.24 23.24 290 38 C286.76 23.24 286.76 23.24 272 20 C286.76 16.76 286.76 16.76 290 2 Z" fill="#A8E6A3"/><path d="M200 2 C202.52 13.48 202.52 13.48 214 16 C202.52 18.52 202.52 18.52 200 30 C197.48 18.52 197.48 18.52 186 16 C197.48 13.48 197.48 13.48 200 2 Z" fill="#A8E6A3"/></svg>
