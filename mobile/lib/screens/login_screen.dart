@@ -1,4 +1,4 @@
-import 'package:campus_mind/screens/registeration_screen.dart';
+import 'package:campus_mind/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
