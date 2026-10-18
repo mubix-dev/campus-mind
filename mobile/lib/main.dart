@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: teal),
         scaffoldBackgroundColor: const Color(0xFFF4F6F2),
       ),
-      home: LoginScreen()
+      home: SplashScreen()
     );
   }
 }

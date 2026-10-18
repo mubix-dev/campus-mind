@@ -1,5 +1,8 @@
+import 'package:campus_mind/screens/login_screen.dart';
+import 'package:campus_mind/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,6 +12,30 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _checkSession();
+  }
+
+  Future<void> _checkSession() async {
+    final results = await Future.wait([
+      Future.delayed(const Duration(milliseconds: 2500)),
+      SharedPreferences.getInstance(),
+    ]);
+
+    final prefs = results[1] as SharedPreferences;
+    final token = prefs.getString("token");
+
+    if (!mounted) return;
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => token == null ? LoginScreen() : RegisterationScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     const teal = Color(0xFF1E7566);
