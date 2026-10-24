@@ -10,7 +10,7 @@ class UserCreateSchema(BaseModel):
     
 class UserLoginSchema(BaseModel):
     email:EmailStr
-    password:EmailStr
+    password:str
 
 class UserOutputSchema(BaseModel):
     id: int
