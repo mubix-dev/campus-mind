@@ -1,7 +1,7 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from src.utils.db import Base,engine
-
+from src.routes.user import user_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -12,6 +12,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="CampusMind", lifespan=lifespan)
+
+app.include_router(user_router,prefix="/api/v1")
 
 
 @app.get("/")
