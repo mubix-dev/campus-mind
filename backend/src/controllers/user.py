@@ -2,7 +2,7 @@ from src.schemas.user import UserCreateSchema,UserLoginSchema,UserOutputSchema
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from src.models.user import UserModel
-from fastapi import HTTPException,status
+from fastapi import HTTPException,status,Response
 from pwdlib import PasswordHash
 
 password_hash = PasswordHash.recommended()
@@ -10,15 +10,20 @@ password_hash = PasswordHash.recommended()
 def get_hashed_password(password):
     return password_hash.hash(password)
 
+def verify_password(plain_password,hashed_password):
+    return password_hash.verify(plain_password,hashed_password)
+
 async def register(body:UserCreateSchema,db:AsyncSession):
 
-    is_user_exist = await db.execute(
+    result = await db.execute(
         select(UserModel).where(
             UserModel.email == body.email
         )
     )
 
-    if is_user_exist.scalars().first():
+    is_user_exist = result.scalars().first()
+
+    if is_user_exist:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="User already exists!"
@@ -57,4 +62,21 @@ async def register(body:UserCreateSchema,db:AsyncSession):
 
     return new_user
 
-    
+
+async def login(body:UserLoginSchema,response:Response,db:AsyncSession):
+
+    result = await db.execute(
+        select(UserModel).where(
+            UserModel.email == body.email
+        )
+    )
+
+    user = result.scalars().first()
+
+    if not user or not verify_password(body.password,user.password):
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid Credentials"
+        )
+
+    return user
