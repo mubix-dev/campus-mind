@@ -3,13 +3,14 @@ from src.schemas.user import UserCreateSchema,UserOutputSchema,UserLoginSchema
 from sqlalchemy.ext.asyncio import AsyncSession
 from src.utils.db import get_db
 from src.controllers import user
+from src.dependencies.rate_limit import rate_limiter
 
 user_router = APIRouter(prefix="/users")
 
-@user_router.post("/register",response_model=UserOutputSchema,status_code=status.HTTP_201_CREATED)
+@user_router.post("/register",response_model=UserOutputSchema,status_code=status.HTTP_201_CREATED,dependencies=[Depends(rate_limiter)])
 async def register(body:UserCreateSchema,db:AsyncSession=Depends(get_db)):
     return await user.register(body,db)
 
-@user_router.post("/login",status_code=status.HTTP_200_OK)
+@user_router.post("/login",status_code=status.HTTP_200_OK,dependencies=[Depends(rate_limiter)])
 async def login(body:UserLoginSchema,response:Response,db:AsyncSession=Depends(get_db)):
     return await user.login(body,response,db)
