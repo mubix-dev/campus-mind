@@ -4,6 +4,9 @@ from sqlalchemy import select
 from src.models.user import UserModel
 from fastapi import HTTPException,status,Response
 from pwdlib import PasswordHash
+import jwt
+from datetime import datetime,timezone,timedelta
+from src.utils.settings import settings
 
 password_hash = PasswordHash.recommended()
 
@@ -79,4 +82,22 @@ async def login(body:UserLoginSchema,response:Response,db:AsyncSession):
             detail="Invalid Credentials"
         )
 
-    return user
+    expires_in = datetime.now(timezone.utc) + timedelta(minutes=settings.EXP_TIME)
+
+    token = jwt.encode(
+        {"_id":user.id,"exp":expires_in},
+        settings.SECRET_KEY,
+        settings.ALGORITHM
+    )
+
+    response.set_cookie(
+        key="token",
+        value=token,
+        httponly=True,
+        samesite="none",
+        secure=False,
+        max_age=settings.EXP_TIME * 60
+    )
+
+
+    return {"token":token,"token_type":"bearer"}
