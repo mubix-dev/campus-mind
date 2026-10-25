@@ -10,6 +10,6 @@ user_router = APIRouter(prefix="/users")
 async def register(body:UserCreateSchema,db:AsyncSession=Depends(get_db)):
     return await user.register(body,db)
 
-@user_router.post("/login",response_model=UserOutputSchema,status_code=status.HTTP_200_OK)
+@user_router.post("/login",status_code=status.HTTP_200_OK)
 async def login(body:UserLoginSchema,response:Response,db:AsyncSession=Depends(get_db)):
     return await user.login(body,response,db)
